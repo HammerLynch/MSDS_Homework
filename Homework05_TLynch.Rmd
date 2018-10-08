@@ -3,6 +3,7 @@ title: "Homework5_Lynch"
 author: "Tyler Lynch"
 date: "October 2, 2018"
 output: html_document
+source: https://github.com/HammerLynch/MSDS_Homework
 ---
 
 ```{r setup, include=FALSE}

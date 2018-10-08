@@ -1,0 +1,101 @@
+---
+title: "Homework5_Lynch"
+author: "Tyler Lynch"
+date: "October 2, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Year 2016 data
+
+```{r year2016}
+library(stringr)
+##setwd("~/MSDS 6306/Unit 5")
+
+#Read file in seperating by ":"
+file.name.16 <- "yob2016.txt"
+df <- read.table(file.name.16, sep = ";")
+
+#Assign column names
+names(df) <- c("Name","Sex","Count")
+
+# Name to character
+df[,'Name'] <- as.character(df[,'Name'])
+
+#dislpay info
+summary(df)
+str(df)
+
+#find the bad input and display it
+badinput <- which(!is.na(str_match(df$Name,"yyy")))
+df[badinput,]
+
+#remove the record with yyy and assign to y2016
+y2016 <- df[-1*badinput,]
+
+
+```
+
+## Year 2015 Data
+
+```{r year2015}
+library(stringr)
+##setwd("~/MSDS 6306/Unit 5")
+
+#Read file in seperating by ","
+file.name.15 <- "yob2015.txt"
+df <- read.table(file.name.15, sep = ",")
+
+#Assign column names
+names(df) <- c("Name","Sex","Count")
+df[,'Name'] <- as.character(df[,'Name'])
+
+#display info
+summary(df)
+str(df)
+tail(df,10)
+
+#assign to y2015
+y2015 <- df
+
+```
+The last 10 are all Z names which is interesting.
+
+```{r merge}
+library(reshape2) #not used yet
+# merge all files
+finaltest <- merge(y2015,y2016, by=c("Name","Sex"),all=TRUE)
+names(finaltest)<-c("Name","Sex","2016","2015")
+
+#Assign merged data to final
+final <- finaltest[which(complete.cases(finaltest)),]
+
+# Insert total column
+final$Total <- final$`2016` + final$`2015`
+
+#sort final totals
+sortfinal <- final[order(final$Total, decreasing = TRUE),]
+#Delete male records and year columns to only display Name, and Total
+girlfinal <- sortfinal[which(sortfinal[,2]=="F"),c(1,5)]
+
+#Create Data Frame for top 10 names
+top10girl <- head(girlfinal,10)
+
+#rename rows to rank names
+row.names(top10girl)<-c(1:10)
+
+#Assign file name and write to csv
+top.10.girl <- "Top10GirlNames.csv"
+write.csv(top10girl, file = top.10.girl)
+
+```
+
+Preview of CSV file (without commas):
+```{r top10preview}
+top10girl
+
+```
+

@@ -1,0 +1,22 @@
+Codebook:
+
+The purpose of the this code is to pull data from 2015 and 2016 baby name sets and merge them, total them, and down select the top 10 girl names based on those totals.
+
+Files:
+y2015.csv
+y2016.csv
+
+Data Frames:
+df - temporary data frame to capture file data
+y2016 - 2016 name data
+y2015 - 2015 name data
+
+finaltest - initial merged data frame
+final - final merged data frame before down select
+
+sortfinal - final data frame
+girlfinal - final girl data frame
+top10girl - top 10 girl name data frame
+
+variables:
+top.10.girl - file name variable
